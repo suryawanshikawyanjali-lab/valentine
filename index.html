@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 💌</title>
+
+<style>
+body {
+    background: #fff0f5;
+    font-family: Georgia, serif;
+    text-align: center;
+    overflow: hidden;
+}
+
+.card {
+    background: white;
+    border: 4px solid #c2185b;
+    border-radius: 25px;
+    padding: 30px;
+    max-width: 460px;
+    margin: 80px auto;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2;
+}
+
+h1 { color: #c2185b; }
+p { font-size: 17px; line-height: 1.6; }
+
+button {
+    background: #c2185b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover { background: #a3154a; }
+
+/* Meme popup */
+#meme {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 10;
+}
+
+/* 🔹 MADE MEME SMALL */
+#meme img {
+    max-width: 220px;
+    margin-top: 80px;
+    border-radius: 16px;
+}
+
+#memeText {
+    color: white;
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+/* Hearts */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    color: #ff4d6d;
+}
+
+@keyframes floatUp {
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Screen 1 -->
+<div class="card" id="screen1">
+    <h1>Hey! 💌</h1>
+    <p>I made something for you.<br>Do you want to see it?</p>
+    <button onclick="firstYes()">YES</button>
+    <button onclick="firstNo()">NO</button>
+</div>
+
+<!-- Letter Screen -->
+<div class="card" id="letterScreen" style="display:none;">
+    <p id="letterText"></p>
+    <button id="letterBtn" style="display:none;" onclick="goToValentine()">here we go 💗</button>
+</div>
+
+<!-- Valentine Question -->
+<div class="card" id="screen2" style="display:none;">
+    <h1>Will you be my Valentine? 💘</h1>
+    <button onclick="yesValentine()">YES 💖</button>
+    <button onclick="secondNo()">NO 🙄</button>
+</div>
+
+<!-- 🌸 CONCLUDING SCREEN (ONLY ADDITION) -->
+<div class="card" id="endScreen" style="display:none;">
+    <p>
+        That’s all for now… Until we meet again 🫶<br><br>
+        See you soon, my love 🤍<br><br>
+        bye bye 💗
+    </p>
+</div>
+
+<!-- Meme popup -->
+<div id="meme" onclick="closeMeme()">
+    <img id="memeImg">
+    <p id="memeText"></p>
+</div>
+
+<script>
+// Images
+const meme1 = "9e719936-b203-474a-bbdb-922a48535ae6.png";
+const meme2 = "a603efe2-20d4-4c9d-a2a4-81efab52b146.png";
+const memeYes = "7b0a5244-1243-436d-92d5-e249a2deed79.png";
+
+// First screen actions
+function firstYes() {
+    document.getElementById("screen1").style.display = "none";
+    document.getElementById("letterScreen").style.display = "block";
+    typeLetter();
+}
+
+function firstNo() {
+    showMeme(meme1, "wrong answer 😾");
+}
+
+// Letter typing effect
+const letter = `Hi bunny, this is me your naina <3
+
+Right now because of my boards we cant meetu so here is something that i made for you and hope it puts a little smile on your face.
+
+These days we've had some arguments i know but lets just forget those things and move ahead ....
+
+so today is valentines day and ofcu sadly we cant meet but anyways my baal dontu be sad hehe we'll meet soon...
+
+P.S:- promisee~~ 💞`;
+
+let i = 0;
+function typeLetter() {
+    if (i < letter.length) {
+        document.getElementById("letterText").innerHTML +=
+            letter.charAt(i) === "\n" ? "<br>" : letter.charAt(i);
+        i++;
+        setTimeout(typeLetter, 40);
+    } else {
+        document.getElementById("letterBtn").style.display = "inline-block";
+    }
+}
+
+// Go to Valentine question
+function goToValentine() {
+    document.getElementById("letterScreen").style.display = "none";
+    document.getElementById("screen2").style.display = "block";
+}
+
+// Valentine actions
+function secondNo() {
+    showMeme(meme2, "wrong answer again 🙄");
+}
+
+function yesValentine() {
+    showMeme(memeYes, "awww thenkyouu baby 💖");
+    startHearts();
+
+    // 🌸 SHOW END SCREEN AFTER A MOMENT
+    setTimeout(() => {
+        document.getElementById("meme").style.display = "none";
+        document.getElementById("screen2").style.display = "none";
+        document.getElementById("endScreen").style.display = "block";
+    }, 3000);
+}
+
+// Meme helpers
+function showMeme(src, text) {
+    document.getElementById("memeImg").src = src;
+    document.getElementById("memeText").innerText = text;
+    document.getElementById("meme").style.display = "block";
+}
+
+function closeMeme() {
+    document.getElementById("meme").style.display = "none";
+}
+
+// Hearts after YES
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }, 400);
+}
+</script>
+
+</body>
+</html>
